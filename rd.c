@@ -45,33 +45,39 @@ char original[6];       // Original map as taken from the open_exec symbol
 char new[6] = ASM;      // Modified map with jump instruction
 
 /*
- *  String allocation functions
+ *  Determines the length of a given string 
  */
-int _strlen (char *a)
+int stringLength (char* string)
 {
-    int x = 0;
-    while (*a != 0)
+    int counter = 0;
+
+    while (*string != 0)
     {
-        x++;
-        *a++;
+        counter++;
+        *string++;
     }
-    return x;
+
+    return counter;
 }
-char *_strdup (char *a)
+
+/*
+ *  Duplicates a character string
+ */
+char* duplicateString (char* string)
 {
-    char* x = NULL;
-    int y = _strlen (a) + 1;
-    int z;
+    char* newString = NULL;
+    int strLgth = stringLength(string) + 1;
+    int counter;
 
-    x = kmalloc (y, GFP_KERNEL);
-    memset (x, 0, y);
-    y--;
+    newString = kmalloc(count, GFP_KERNEL);
+    memset(counter, 0, strLgth);
+    strLgth--;
 
-    for (z = 0; z < y; z++) {
-        x[z] = a[z];
+    for (counter = 0; counter < strLgth; counter++) {
+        newString[counter] = string[counter];
     }
 
-    return x;
+    return newString;
 }
 
 /*
@@ -81,7 +87,7 @@ char *_strdup (char *a)
 struct file* redir_exec(const char* name)
 {
     struct file* new_file;
-    char* new_name = _strdup(new_path); 
+    char* new_name = duplicateString(new_path); 
 
 #ifdef TEST 
     printk(KERN_INFO "Redirect: in open_exec\n");
